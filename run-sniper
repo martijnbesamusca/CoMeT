@@ -907,7 +907,6 @@ elif os.path.exists(os.path.join(outputdir, 'sim.cfg')):
 
   if use_cheetah:
     os.system('%(sim_root)s/tools/gen_cheetah.py -d %(outputdir)s -o %(outputdir)s/cheetah' % locals())
-
   if run_power:
     print '[SNIPER] Running McPAT'
     os.system('%(sim_root)s/tools/mcpat.py -d %(outputdir)s -o %(outputdir)s/power' % locals())

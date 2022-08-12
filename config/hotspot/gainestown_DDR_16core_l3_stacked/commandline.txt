@@ -1,0 +1,2 @@
+# command used to create these files:
+../../floorplanlib/create.py --mode DDR --cores 4x4 --corex 2.876mm --corey 2.876mm --banks 4x4 --bankx 1.707mm --banky 1.707mm --cache_L3 stacked --cachex 11.504mm --cachey 11.504mm --out ../../config/hotspot/gainestown_DDR_16core_l3_stacked

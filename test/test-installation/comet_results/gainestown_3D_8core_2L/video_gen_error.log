@@ -1,0 +1,15 @@
+
+
+Received temperature filename: /home/martijn/Documents/uva/thesis/CoMeT/test/test-installation/comet_results/gainestown_3D_8core_2L/combined_temperature.trace
+Received output directory name: /home/martijn/Documents/uva/thesis/CoMeT/test/test-installation/comet_results/gainestown_3D_8core_2L/video
+Setting sampling rate: 1
+Setting min. temperature limit (blue color): 65.0
+Setting max. temperature limit (red color) : 81.0
+
+
+Traceback (most recent call last):
+  File "/home/martijn/Documents/uva/thesis/CoMeT/scripts/heatView.py", line 360, in <module>
+    parse_tfile(tfilename, line)
+  File "/home/martijn/Documents/uva/thesis/CoMeT/scripts/heatView.py", line 178, in parse_tfile
+    temperatures_core[i] = float(value)
+ValueError: could not convert string to float: ''

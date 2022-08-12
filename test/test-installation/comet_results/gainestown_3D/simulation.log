@@ -1,0 +1,65 @@
+[SNIPER] Running ['/home/martijn/Documents/uva/thesis/CoMeT/record-trace', '-o', '/tmp/tmpxrm2aT/run_benchmarks', '-v', '--pa', '-e', '1', '-s', '0', '-r', '1', '--follow', '--routine-tracing', '--', '/home/martijn/Documents/uva/thesis/CoMeT/test/test-installation/test']
+[SNIPER] Start
+[SNIPER] Running ['bash', '-c', '/home/martijn/Documents/uva/thesis/CoMeT/lib/sniper -c /home/martijn/Documents/uva/thesis/CoMeT/config/base.cfg --general/total_cores=4 --general/output_dir=/home/martijn/Documents/uva/thesis/CoMeT/test/test-installation --config=/home/martijn/Documents/uva/thesis/CoMeT/config/nehalem.cfg --config=/home/martijn/Documents/uva/thesis/CoMeT/config/gainestown_3D.cfg -g --traceinput/stop_with_first_app=true -g --traceinput/restart_apps=false -g --hooks/numscripts=1 -g --hooks/script0name=/home/martijn/Documents/uva/thesis/CoMeT/test/test-installation/sim.scripts.py -g --hooks/script0args= -g --traceinput/stop_with_first_app=false -g --traceinput/enabled=true -g --traceinput/emulate_syscalls=true -g --traceinput/num_apps=1 -g --traceinput/trace_prefix=/tmp/tmpxrm2aT/run_benchmarks']
+Executing Python script /home/martijn/Documents/uva/thesis/CoMeT/test/test-installation/sim.scripts.py
+/home/martijn/Documents/uva/thesis/CoMeT/hotspot_tool/hotspot -c /home/martijn/Documents/uva/thesis/CoMeT/config/hotspot/3D/stack_hotspot.config -p power_mem.trace -o temperature_mem.trace -model_secondary 1 -model_type grid  -steady_file steady_temperature_mem.log -all_transient_file all_transient_mem.init -grid_steady_file grid_steady_mem.log -steady_state_print_disable 1  -l 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,  -type 3D -sampling_intvl 0.001 -grid_layer_file /home/martijn/Documents/uva/thesis/CoMeT/config/hotspot/3D/stack.lcf -detailed_3D on
+copying files for first run
+-rw-rw-r-- 1 1000 1000 7450 May 21 08:13 /home/martijn/Documents/uva/thesis/CoMeT/config/hotspot/3D/stack.init
+[SNIPER] --------------------------------------------------------------------------------
+[SNIPER] Sniper using SIFT/trace-driven frontend
+[SNIPER] Running full application in DETAILED mode
+[SNIPER] --------------------------------------------------------------------------------
+[SNIPER] Enabling performance models
+[SNIPER] Setting instrumentation mode to DETAILED
+[RECORD-TRACE] Using the Pin frontend (sift/recorder)
+[SIFT_RECORDER] Running /home/martijn/Documents/uva/thesis/CoMeT/pin_kit/pin -mt -injection child -xyzzy -ifeellucky -follow_execv -t /home/martijn/Documents/uva/thesis/CoMeT/sift/recorder/obj-intel64/sift_recorder -verbose 1 -debug 0 -roi 0 -roi-mpi 0 -f 0 -d 0 -b 0 -o /tmp/tmpxrm2aT/run_benchmarks -e 1 -s 0 -r 1 -pa 1 -rtntrace 1 -stop 0    -- /home/martijn/Documents/uva/thesis/CoMeT/test/test-installation/test
+[SIFT_RECORDER:0:0] Output = [/tmp/tmpxrm2aT/run_benchmarks.app0.th0.sift]
+[SIFT_RECORDER:0:0] Response = [/tmp/tmpxrm2aT/run_benchmarks_response.app0.th0.sift]
+[STAT:dram.bank_read_access_counter]  0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+[STAT:dram.bank_write_access_counter]  0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+warning: layer configuration file specified. overriding default floorplan with those in lcf file...
+error: no. of units in floorplan and trace file differ
+idx = 9
+table[idx].value = 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+idx = 14
+table[idx].value = 1.1,1.1,1.1,1.1
+Warning: transient leakage iteration is not supported in this release...
+ ...all transient results are without thermal-leakage loop.
+flp_file= 
+do_detailed_3D= 1
+cp: cannot stat 'all_transient_mem.init': No such file or directory
+[STAT:dram.bank_read_access_counter]  95 57 93 99 91 91 101 53 90 57 88 93 87 90 90 52 88 58 81 97 79 210 96 169 91 49 78 99 87 98 89 47 83 56 90 92 84 89 94 52 91 50 87 96 91 92 92 51 98 51 89 92 84 93 95 44 94 49 83 92 85 87 94 49 93 47 79 94 89 97 96 46 93 48 87 100 88 95 95 46 91 56 78 99 84 93 94 52 91 47 81 95 86 91 88 46 92 50 78 93 81 96 97 41 90 47 81 97 85 99 84 48 91 47 87 91 79 97 93 50 89 46 88 102 89 99 91 52
+[STAT:dram.bank_write_access_counter]  82 80 39 71 41 73 77 78 78 76 42 73 42 71 79 75 83 80 41 71 157 69 201 79 81 77 36 70 37 70 81 77 82 76 36 72 37 72 79 76 80 81 39 74 37 73 81 81 81 83 34 76 34 69 79 81 79 81 34 70 33 70 79 81 79 81 34 69 34 71 80 78 81 79 32 71 33 70 82 79 82 76 37 68 34 72 81 77 81 78 35 70 35 69 81 79 82 78 35 69 34 69 82 80 83 77 35 71 34 71 83 78 82 78 32 72 35 70 82 78 83 78 33 71 39 73 85 79
+warning: layer configuration file specified. overriding default floorplan with those in lcf file...
+error: no. of units in floorplan and trace file differ
+idx = 9
+table[idx].value = 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+idx = 14
+table[idx].value = 1.1,1.1,1.1,1.1
+Warning: transient leakage iteration is not supported in this release...
+ ...all transient results are without thermal-leakage loop.
+flp_file= 
+do_detailed_3D= 1
+cp: cannot stat 'all_transient_mem.init': No such file or directory
+[SIFT_RECORDER:0:0] Recorded 21246476 instructions
+[TRACE:0] -- DONE --
+
+   	Time	#READs	#WRITEs	#Access		Bank Counters
+
+
+@& 	1000	10527	8766	19293		177, 137, 132, 170, 132, 164, 178, 131, 168, 133, 130, 166, 129, 161, 169, 127, 171, 138, 122, 168, 236, 279, 297, 248, 172, 126, 114, 169, 124, 168, 170, 124, 165, 132, 126, 164, 121, 161, 173, 128, 171, 131, 126, 170, 128, 165, 173, 132, 179, 134, 123, 168, 118, 162, 174, 125, 173, 130, 117, 162, 118, 157, 173, 130, 172, 128, 113, 163, 123, 168, 176, 124, 174, 127, 119, 171, 121, 165, 177, 125, 173, 132, 115, 167, 118, 165, 175, 129, 172, 125, 116, 165, 121, 160, 169, 125, 174, 128, 113, 162, 115, 165, 179, 121, 173, 124, 116, 168, 119, 170, 167, 126, 173, 125, 119, 163, 114, 167, 175, 128, 172, 124, 121, 173, 128, 172, 176, 131, 
+
+@& 	2000	19157	13734	32891		309, 280, 209, 233, 236, 252, 288, 255, 257, 185, 262, 326, 248, 276, 271, 230, 310, 281, 215, 235, 228, 261, 280, 255, 245, 209, 260, 309, 235, 289, 273, 226, 295, 302, 209, 217, 230, 259, 278, 256, 249, 214, 264, 312, 247, 279, 278, 235, 302, 292, 214, 237, 237, 253, 282, 253, 247, 209, 259, 310, 244, 275, 275, 231, 297, 288, 209, 231, 237, 255, 283, 254, 250, 209, 259, 310, 242, 275, 277, 234, 300, 291, 208, 230, 235, 252, 286, 256, 250, 210, 255, 308, 240, 274, 278, 231, 301, 288, 205, 230, 232, 251, 286, 255, 251, 210, 255, 308, 240, 275, 278, 231, 301, 288, 205, 230, 232, 251, 286, 255, 252, 210, 255, 307, 244, 279, 281, 233, 
+
+[SNIPER] Disabling performance models
+[SNIPER] Leaving ROI after 25.85 seconds
+[SNIPER] Simulated 21.2M instructions, 8.8M cycles, 2.42 IPC
+[SNIPER] Simulation speed 822.0 KIPS (205.5 KIPS / target core - 4866.0ns/instr)
+[SNIPER] Setting instrumentation mode to FAST_FORWARD
+
+Total number of DRAM read requests = 48991 
+
+Total number of DRAM write requests = 32785 
+
+[SNIPER] End
+[SNIPER] Elapsed time: 26.04 seconds

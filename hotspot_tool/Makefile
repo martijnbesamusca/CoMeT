@@ -12,6 +12,8 @@ ifndef SUPERLU
 SUPERLU = 0
 endif
 
+DEBUG = 2
+
 ifeq ($(SUPERLU), 1)
 #Super LU
 SuperLUroot	= /mnt/disk1/hotspot_sniper/SuperLU_4.3/

@@ -145,25 +145,33 @@ class Every:
     register(self)
 
   def hook_roi_begin(self):
+    print('every begin')
     self.in_roi = True
     self.hook_periodic(sim.stats.time())
 
   def hook_roi_end(self):
+    print('every end')
     self.hook_periodic(sim.stats.time())
     self.in_roi = False
 
   def hook_periodic(self, time):
+    # print(not self.roi_only, self.in_roi, time, self.time_next)
     if (not self.roi_only or self.in_roi) and time >= self.time_next:
+      print('periodic 1')
       time_delta = time - self.time_last
       self.time_next = time + self.interval
       self.time_last = time
+      print(self.time_next, self.time_last)
 
       if self.statsdelta:
+        print('periodic 2')
         doCall = self.statsdelta.update()
       else:
+        print('periodic 3')
         doCall = True
 
       if doCall:
+        print('periodic 4')
         self.callback(time, time_delta)
 
 

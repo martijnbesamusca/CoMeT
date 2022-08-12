@@ -1,0 +1,6 @@
+#core_perf
+L3 Type & Time (ms) 
+\hline
+No L3 & 42.8440
+Stacked L3 & 41.3278
+Non-Stacked L3 & 41.2994

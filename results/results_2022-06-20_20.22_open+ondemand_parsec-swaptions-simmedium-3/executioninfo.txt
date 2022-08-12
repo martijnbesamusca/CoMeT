@@ -1,0 +1,5 @@
+started:    2022-06-20 20:45:17
+ended:      2022-06-20 21:06:42
+duration:   0:21:24.593073
+host:       9f90132256d9
+tasks:      parsec-swaptions-simmedium-3

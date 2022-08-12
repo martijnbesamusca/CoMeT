@@ -1389,7 +1389,10 @@ int get_blk_index(flp_t *flp, char *name)
 
 	for (i = 0; i < flp->n_units; i++) {
 		if (!strcasecmp(name, flp->units[i].name)) {
+			// printf("DEBUG: block %s is %s;", name, flp->units[i].name);
 			return i;
+		} else {
+			// printf("DEBUG: block %s not %s;", name, flp->units[i].name);
 		}
 	}
 

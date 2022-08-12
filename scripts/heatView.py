@@ -146,8 +146,8 @@ if (debug):
     print ("Command line options:")
     print (opts)
 
-if (arch_type == "DDR"):
-    plot_type = "2D"
+# if (arch_type == "DDR"):
+#     plot_type = "2D"
 
 
 
@@ -168,17 +168,17 @@ def parse_tfile(tfilename, orig_line):
     if (debug):
         print ("DEBUG::Temperature trace:\n%s" %line)
 
-    col = 0
+    i = 0
+    for value in line[0:total_cores]:
+        temperatures_core[i] = float(value)
+        i+=1
+    col = total_cores
     if cache_l3:
         value = line[col]
         temperature_l3[0] = float(value)
         col += 1
     i = 0
-    for value in line[col:col+total_cores]:
-        temperatures_core[i] = float(value)
-        i+=1
-    i = 0
-    for value in line[col+total_cores:]:
+    for value in line[col:]:
         temperatures_bank[i] = float(value)
         i+=1
 
@@ -191,11 +191,11 @@ def parse_tfile_header(tfilename, orig_line):
     if (debug):
         print ("DEBUG::Temperature trace file header:\n%s" %line)
 
-    while (line[column].startswith('L3')):
-        count_L3_column+=1
-        column+=1
     while (line[column].startswith('C')):
         count_core_column+=1
+        column+=1
+    while (line[column].startswith('L3')):
+        count_L3_column+=1
         column+=1
     while (line[column].startswith('B')):
         count_bank_column+=1
@@ -213,7 +213,8 @@ def plot_opaque_cube(ax, x=10, y=20, z=30, dx=40, dy=50, dz=60, color='cyan', al
     if (debug):
         print("DEBUG:: plot_opaque_cube: x=%d,y=%d,z=%d" %(x,y,z))
 
-    kwargs = {'alpha': alpha, 'color': color, 'edgecolor': 'k', 'shade':False, 'zorder':1/(z+1)}
+    kwargs = {'alpha': alpha, 'color': color, 'edgecolor': 'k', 'shade':False}
+    zorder = z + x * 0.01
 
     xx = np.linspace(x, x+dx, 2)
     yy = np.linspace(y, y+dy, 2)
@@ -221,18 +222,18 @@ def plot_opaque_cube(ax, x=10, y=20, z=30, dx=40, dy=50, dz=60, color='cyan', al
 
     xxx, yyy = np.meshgrid(xx, yy)
     zzz = z*np.ones(4).reshape(2, 2)
-    ax.plot_surface(xxx, yyy, zzz,    **kwargs)
-    ax.plot_surface(xxx, yyy, zzz+dz, **kwargs)
+    ax.plot_surface(xxx, yyy, zzz,    **kwargs, zorder=zorder)
+    ax.plot_surface(xxx, yyy, zzz+dz, **kwargs, zorder=zorder+3*0.0001)
 
     yyy, zzz = np.meshgrid(yy, zz)
     xxx = x*np.ones(4).reshape(2, 2)
-    ax.plot_surface(xxx,    yyy, zzz, **kwargs)
-    ax.plot_surface(xxx+dx, yyy, zzz, **kwargs)
+    ax.plot_surface(xxx,    yyy, zzz, **kwargs, zorder=zorder+1*0.0001)
+    ax.plot_surface(xxx+dx, yyy, zzz, **kwargs, zorder=zorder+2*0.0001)
 
     xxx, zzz = np.meshgrid(xx, zz)
     yyy = y*np.ones(4).reshape(2, 2)
-    ax.plot_surface(xxx, yyy,    zzz, **kwargs)
-    ax.plot_surface(xxx, yyy+dy, zzz, **kwargs)
+    ax.plot_surface(xxx, yyy,    zzz, **kwargs, zorder=zorder+1*0.0001)
+    ax.plot_surface(xxx, yyy+dy, zzz, **kwargs, zorder=zorder+2*0.0001)
 
     # ax.set_xlim3d(-dx, dx*2, 20)
     # ax.set_xlim3d(-dx, dx*2, 20)
@@ -240,7 +241,7 @@ def plot_opaque_cube(ax, x=10, y=20, z=30, dx=40, dy=50, dz=60, color='cyan', al
     #plt.title("Cube")
     #plt.show()
 
-def plot_3D_structure(ax, tmin, tmax, xdim, ydim, zdim, zstart, xwidth, ywidth, temperatures, title_message, axes_postprocess=True, inverted=False, layer_type="Core", adjust=0, xstart=0, ystart=0):
+def plot_3D_structure(ax, tmin, tmax, xdim, ydim, zdim, zstart, xwidth, ywidth, temperatures, title_message, axes_postprocess=True, inverted=False, layer_type="Core", adjust=0, xstart=0, ystart=0, zadjust=1):
     if (debug):
         print ("DEBUG:: plot_3D_structure: xwidth = %f" %xwidth)
     color_lvl = 200
@@ -270,7 +271,7 @@ def plot_3D_structure(ax, tmin, tmax, xdim, ydim, zdim, zstart, xwidth, ywidth, 
             layer_num = zz
         annotate_text = layer_type + " L"+ str(layer_num)
         if (layer_type and (zdim > 1 or zstart > 0)):
-            ax.text(xx+3,-1.2+adjust,zz+zstart+1.0,annotate_text,(0,1,0), verticalalignment='center', fontsize=17)
+            ax.text(xx+3,-1.2+adjust,zz+zstart+zadjust,annotate_text,(0,1,0), verticalalignment='center', fontsize=17)
 #        ax.annotate("Time step = "+str(count) +" ms", xy=(xx+1, 0), xycoords='axes points', fontsize=21)
 
     if (axes_postprocess==True):        #true only for the last plot in 3D.
@@ -397,12 +398,14 @@ if __name__ == "__main__":
         #beginning of 3D plotting
         else:
             ax = fig.add_subplot(gs[0], projection='3d')
+            ax.computed_zorder = False
             cache_in_z = 1 if cache_l3 and cache_l3_stacked else 0
+            cache_l3_width = 0 if cache_l3_stacked or not cache_l3 else cache_l3_width
                         #ind = yy + cores_in_y*xx + cores_in_x*cores_in_y*zz
 
+            cores_and_l3_in_x = cores_in_x + cache_l3_width
             #core
             if (arch_type=="3D"):
-                cores_and_l3_in_x = cores_in_x + cache_l3_width
                 xwidth=(float)(banks_in_x)/cores_and_l3_in_x
                 ywidth=(float)(banks_in_y)/cores_in_y
                 if (inverted_view):
@@ -415,7 +418,7 @@ if __name__ == "__main__":
             else:
                 xwidth=1
                 ywidth=1
-                zstart = 0
+                zstart = cache_in_z
                 postprocess=True
                 title_message = "Core temperature map"
                 adj=0
@@ -433,24 +436,29 @@ if __name__ == "__main__":
 
             # cache
             if (cache_l3 and cache_l3_stacked):
-                if (inverted_view):
-                    zstart = cores_in_z
+                if arch_type == "3D":
+                    xwidth = banks_in_x
+                    ywidth = banks_in_y
+                    zstart = cores_in_z if inverted_view else banks_in_z
                 else:
-                    zstart = banks_in_z
-                xwidth=banks_in_x
-                ywidth=banks_in_y
+                    xwidth = cores_in_x
+                    ywidth = cores_in_y
+                    zstart = 0
                 postprocess=False
-                adj=-0.7
-                plot_3D_structure(ax, tmin, tmax, 1, 1, 1, zstart, xwidth, ywidth, temperature_l3, None, postprocess, inverted_view, "L3", adj)
+                adj=-.7
+                plot_3D_structure(ax, tmin, tmax, 1, 1, 1, zstart, xwidth, ywidth, temperature_l3, None, postprocess, inverted_view, "L3", adj, zadjust=0)
 
             if (cache_l3 and not cache_l3_stacked):
-                if (inverted_view):
-                    zstart = 0
+                if arch_type == "3D":
+                    xwidth = (float)(banks_in_x)/cores_and_l3_in_x
+                    ywidth = banks_in_y
+                    xstart = cores_in_x * xwidth  
+                    zstart = 0 if inverted_view else banks_in_z             
                 else:
-                    zstart = banks_in_z
-                xwidth=(float)(banks_in_x)/cores_and_l3_in_x
-                ywidth=banks_in_y                
-                xstart = cores_in_x * xwidth           
+                    xwidth = cache_l3_width
+                    ywidth = cores_in_y     
+                    xstart = -xwidth
+                    zstart = 0
                 plot_3D_structure(ax, tmin, tmax, 1, 1, 1, zstart, xwidth, ywidth, temperature_l3, None, postprocess, inverted_view, "", adj, xstart=xstart)
 
                 # plot_opaque_cube(ax, xwidth*3, ywidth*3, zstart, xwidth, ywidth, 0.2, color[temperature_l3], 1)

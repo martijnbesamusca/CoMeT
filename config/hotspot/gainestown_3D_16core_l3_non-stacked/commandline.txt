@@ -1,0 +1,2 @@
+# command used to create these files:
+../../floorplanlib/create.py --mode 3D --cores 4x4 --corex 2mm --corey 2mm --banks 4x4x8 --bankx 2.5mm --banky 2mm --cache_L3 non-stacked --cachex 2mm --cachey 8mm --out ../../config/hotspot/gainestown_3D_16core_l3_non-stacked

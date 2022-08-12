@@ -4,6 +4,7 @@ memTherm_core.py
 """
 
 import sys, os, sim
+# print('\n'*5 + sim. + '\n'*5)
 
 
 bank_size=int(sim.config.get('memory/bank_size'))
@@ -53,8 +54,9 @@ NUM_BANKS=int(sim.config.get('memory/num_banks'))
 #bank_printing_pattern = []
 
 # Cache power info
-power_l2 = bool(sim.config.get('core_power/l2'))
-power_l3 = bool(sim.config.get('core_power/l3'))
+power_l2 = bool(sim.config.get('core_power/l2') == 'true')
+power_l3 = bool(sim.config.get('core_power/l3') == 'true')
+NUM_L3 = 1 if power_l3 else 0
 
 # Logic Floorplan info (only for 3Dmem)
 logic_cores_in_x = banks_in_x
@@ -208,6 +210,8 @@ def gen_ptrace_header():
     if type_of_stack=="2.5D":
         for x in range(1,4):
             ptrace_header=ptrace_header + "X" + str(x) + "\t" 
+        if power_l3:
+            ptrace_header = ptrace_header + "L3" + "\t" 
                 
     for z in range(0,banks_in_z):
         for x in range(0,banks_in_x):
@@ -337,6 +341,10 @@ class memTherm:
             power_file.readline()  # ignore first line that contains the header
             c_power_data=power_file.readline()  # ignore first line that contains the header
         power_file.close()
+        if (power_l3):
+          c_power_data = c_power_data.split('\t')
+          l3_power_data = c_power_data[-2]
+          c_power_data = '\t'.join(c_power_data[:-2]) + '\t'
         power_trace = power_trace + c_power_data 
     #print logic power trace to the main power_trace
     for p in logic_power_trace:
@@ -345,6 +353,8 @@ class memTherm:
     if (type_of_stack == "2.5D"):
         for x in range(1,4):
             power_trace = power_trace + str(0.00) + '\t'
+        if (power_l3):
+          power_trace = power_trace + l3_power_data + '\t'
      #add bank power into the main power trace
     for bank in range(len(bank_power_trace)):
             #add 0 power for X1, X2, X3 for 2.5D
@@ -411,7 +421,7 @@ class memTherm:
      if (c_init_file_external!= "None") or (not first_run):
          c_hotspot_args += ' -init_file ' + c_init_file
 
-     #print hotspot_binary, hotspot_args
+     print 'CORE HOTSPOT', c_executable, c_hotspot_args
 #     c_temperatures = subprocess.check_output([hotspot_binary] + hotspot_args)
      #print c_hotspot_args
      os.system(c_hotspot_args)
@@ -425,10 +435,10 @@ class memTherm:
 
   def gen_combined_trace_header(self):
     trace_header = ""
-    if power_l3:
-        trace_header = "L3\t"
     for x in range(NUM_CORES):
         trace_header = trace_header + "C_" + str(x) + "\t"
+    if power_l3:
+      trace_header += "L3\t"
     for x in range(NUM_BANKS):
         trace_header = trace_header + "B_" + str(x) + "\t"
     return trace_header
@@ -474,11 +484,15 @@ class memTherm:
         data_split = data.split("\t")
         core_data_split = data_split[:NUM_CORES]        #extract core temperatures from the line (first few entries)
         core_data = "\t".join(core_data_split)
-        mem_portion = data_split[NUM_CORES+NUM_LC+3 : ] # skip the first few entries corresponding to cores, LC, and X1, X2, X3
+        if power_l3:
+          l3_data = data_split[NUM_CORES+NUM_LC+3]
+          core_data += "\t" + l3_data
+        mem_portion = data_split[NUM_CORES+NUM_LC+NUM_L3+3 : ] # skip the first few entries corresponding to cores, LC, and X1, X2, X3
         banks_per_layer = banks_in_x*banks_in_y
         mem_data_split = []
         for layer in range(banks_in_z):
             start_index = layer*(banks_per_layer+3)         # +4 corresponds to X1,X2,X3
+            print(mem_portion[start_index:start_index+banks_per_layer])
             mem_data_split.extend(mem_portion[start_index:start_index+banks_per_layer])
         mem_data = "\t".join(mem_data_split)
 
@@ -515,6 +529,7 @@ class memTherm:
   def calc_temperature_trace(self, time, time_delta):
 #   print power_trace
     #invoke energystats function to compute core power trace
+    print('calc_temperature_trace')
     self.ES.periodic(time, time_delta)
     vdd_string = self.get_core_vdd_for_hotspot()     #used to scale core leakage power in hotspot
 

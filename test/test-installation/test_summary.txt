@@ -1,0 +1,16 @@
+Summary of CoMet Features
+=========================
+Test case passed for configuration gainestown_3Dmem.cfg
+Video generated for gainestown_3Dmem and saved /home/martijn/Documents/uva/thesis/CoMeT/test/test-installation/comet_results/gainestown_3Dmem/video
+Test case passed for configuration gainestown_DDR.cfg
+Video generated for gainestown_DDR and saved /home/martijn/Documents/uva/thesis/CoMeT/test/test-installation/comet_results/gainestown_DDR/video
+Test case passed for configuration gainestown_2_5D.cfg
+Video generated for gainestown_2_5D and saved /home/martijn/Documents/uva/thesis/CoMeT/test/test-installation/comet_results/gainestown_2_5D/video
+Test case passed for configuration gainestown_3D.cfg
+Video generation failed for configuration gainestown_3D.cfg. Please check /home/martijn/Documents/uva/thesis/CoMeT/test/test-installation/comet_results/gainestown_3D/video_gen_error.log for details.
+Test case passed for configuration gainestown_3D_8core_2L.cfg
+Video generation failed for configuration gainestown_3D_8core_2L.cfg. Please check /home/martijn/Documents/uva/thesis/CoMeT/test/test-installation/comet_results/gainestown_3D_8core_2L/video_gen_error.log for details.
+Test case passed for configuration gainestown_3Dmem_8core_2L.cfg
+Video generated for gainestown_3Dmem_8core_2L and saved /home/martijn/Documents/uva/thesis/CoMeT/test/test-installation/comet_results/gainestown_3Dmem_8core_2L/video
+
+10 of 12 cases passed
