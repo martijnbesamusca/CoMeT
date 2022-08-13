@@ -1,5 +1,0 @@
-started:    2022-06-14 14:43:45
-ended:      2022-06-14 15:25:14
-duration:   0:41:29.137450
-host:       6426596b2f8b
-tasks:      parsec-canneal-simsmall-15
